@@ -116,22 +116,21 @@ fun EsJumboApp(
                                         viewModel,
                                         navController,
                                     )
-                },
-                modifier = Modifier
+                                },
+                                modifier = Modifier
                                 )
+                            }
+                                composable(route = PengelolaHalaman.Summary.name) {
+                                    HalamanDua(
+                                        orderUIState = uiState,
+                                        contactUiState = uiStateForm,
+                                        onCancelButtonClicked = {
+                                        cancelOrderAndNavigateToRasa(navController) },
+                                    )
+                                }
+                            }
                         }
-            composable(route = PengelolaHalaman.Summary.name) {
-                HalamanDua(
-                    orderUIState = uiState,
-                    contactUiState = uiStateForm,
-                    onCancelButtonClicked = {
-                        cancelOrderAndNavigateToRasa(navController) },
-                )
-            }
-            }
-
                     }
-                }
 
 private fun cancelOrderAndNavigateToForm(
     viewModel: OrderViewModel,
