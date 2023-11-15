@@ -43,6 +43,28 @@ fun HalamanDua (
             verticalArrangement =
                 Arrangement.spacedBy(dimensionResource(R.dimen.padding_small))
         ){
+            Column {
+                Text(text = stringResource (id = R.string.nama), fontWeight = FontWeight.Bold)
+                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small)))
+                Text(text = contactUiState.nama)
+                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small)))
+                Divider(thickness = dimensionResource(R.dimen.thickness_divider))
+                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small)))
+
+                Text(text = stringResource(id = R.string.no_telp),fontWeight = FontWeight.Bold)
+                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small)))
+                Text(text = contactUiState.noTelp)
+                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small)))
+                Divider(thickness = dimensionResource(R.dimen.thickness_divider))
+                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small)))
+
+                Text(text = stringResource(id = R.string.alamat), fontWeight = FontWeight.Bold)
+                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small)))
+                Text(text = contactUiState.alamat)
+                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small)))
+                Divider(thickness = dimensionResource(R.dimen.thickness_divider))
+                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small)))
+            }
             items.forEach{ item ->
                 Column{
                     Text(item.first.uppercase())
