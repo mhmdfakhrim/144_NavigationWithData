@@ -54,7 +54,9 @@ fun HalamanHome(
                 Image(
                     painter = image,
                     contentDescription = null,
-                    contentScale = ContentScale.Crop
+                    contentScale = ContentScale.Crop,
+
+
                 )
                 Text(
                     text = "es teh",

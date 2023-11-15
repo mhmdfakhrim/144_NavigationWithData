@@ -26,11 +26,14 @@ import com.example.projectpam.data.SumberData.flavors
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-
+import com.example.projectpam.data.SumberData.topping
+import kotlinx.coroutines.flow.internal.NoOpContinuation.context
+import kotlin.coroutines.jvm.internal.CompletedContinuation.context
 
 
 enum class PengelolaHalaman{
     Home,
+    Form,
     Rasa,
     Summary
 }
@@ -61,9 +64,11 @@ fun EsJumboAppBar(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EsJumboApp(
     viewModel: OrderViewModel = viewModel(),
+    viewModelForm: ContactViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ){
     Scaffold(
@@ -103,6 +108,20 @@ fun EsJumboApp(
                                     )
                                 })
                         }
+            HalamanTiga(
+                pilihanToppings = topping.map { id ->
+                    context.resources.getString(id) },
+                onSelectionChanged = { viewModel.setTopping(it) },
+                onConfirmButtonClicked = { viewModel.setJumlah(it) },
+                onNextButtonClicked = { navController.navigate(PengelolaHalaman.Topping.name) },
+                onCancelButtonClicked = {
+                    cancelOrderAndNavigateToHome(
+                        viewModel,
+                        navController
+                    )
+                })
+            }
+
                         composable(route = PengelolaHalaman.Summary.name) {
                             HalamanDua(
                                 orderUIState = uiState,
@@ -120,6 +139,14 @@ private fun cancelOrderAndNavigateToHome(
     viewModel.resetOrder()
     navController.popBackStack(PengelolaHalaman.Home.name, inclusive = false)
 }
+private fun cancelOrderAndNavigateToTopping(
+    viewModel: OrderViewModel,
+    navController: NavHostController
+){
+    viewModel.resetOrder()
+    navController.popBackStack(PengelolaHalaman.Topping.name, inclusive = false)
+}
+
 private fun cancelOrderAndNavigateToRasa(
     navController: NavHostController
 ){

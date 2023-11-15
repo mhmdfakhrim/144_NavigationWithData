@@ -28,7 +28,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HalamanSatu(
@@ -119,3 +118,4 @@ fun HalamanSatu(
         }
     }
 }
+

@@ -19,13 +19,13 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Divider
 import androidx.compose.foundation.layout.Spacer
-
-
+import com.example.projectpam.data.ContactUiState
 
 
 @Composable
 fun HalamanDua (
     orderUIState: OrderUIState,
+    contactUiState: ContactUiState,
     onCancelButtonClicked: () -> Unit,
     modifier: Modifier = Modifier
 ){
