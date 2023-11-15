@@ -26,10 +26,7 @@ import com.example.projectpam.data.SumberData.flavors
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.projectpam.data.SumberData.topping
-import kotlinx.coroutines.flow.internal.NoOpContinuation.context
-import kotlin.coroutines.jvm.internal.CompletedContinuation.context
-
+import com.example.projectpam.data.ContactUiState
 
 enum class PengelolaHalaman{
     Home,
@@ -81,6 +78,7 @@ fun EsJumboApp(
         }
     ){ innerPadding ->
         val uiState by viewModel.stateUI.collectAsState()
+        val uiStateForm by viewModelForm.stateUIForm.collectAsState()
         NavHost(
             navController = navController,
             startDestination = PengelolaHalaman.Home.name,
@@ -93,6 +91,19 @@ fun EsJumboApp(
                         navController.navigate(PengelolaHalaman.Rasa.name)
                     })
             }
+            composable(route = PengelolaHalaman.Form.name){
+                HalamanForm(
+                    onSubmitButtonClicked = {
+                        viewModelForm.setContact(it)
+                        navController.navigate(PengelolaHalaman.Rasa.name)
+                    },
+                    onBackButtonClicked = {
+                        navController.popBackStack(
+                            PengelolaHalaman.Home.name,
+                            false
+                        )
+                    })
+            }
             composable(route = PengelolaHalaman.Rasa.name){
             val context = LocalContext.current
             HalamanSatu(
@@ -102,49 +113,33 @@ fun EsJumboApp(
                 onConfirmButtonClicked = { viewModel.setJumlah(it) },
                 onNextButtonClicked = { navController.navigate(PengelolaHalaman.Summary.name) },
                 onCancelButtonClicked = {
-                                    cancelOrderAndNavigateToHome(
+                                    cancelOrderAndNavigateToForm(
                                         viewModel,
-                                        navController
+                                        navController,
                                     )
-                                })
+                },
+                modifier = Modifier
+                                )
                         }
-            HalamanTiga(
-                pilihanToppings = topping.map { id ->
-                    context.resources.getString(id) },
-                onSelectionChanged = { viewModel.setTopping(it) },
-                onConfirmButtonClicked = { viewModel.setJumlah(it) },
-                onNextButtonClicked = { navController.navigate(PengelolaHalaman.Topping.name) },
-                onCancelButtonClicked = {
-                    cancelOrderAndNavigateToHome(
-                        viewModel,
-                        navController
-                    )
-                })
+            composable(route = PengelolaHalaman.Summary.name) {
+                HalamanDua(
+                    orderUIState = uiState,
+                    contactUiState = uiStateForm,
+                    onCancelButtonClicked = {
+                        cancelOrderAndNavigateToRasa(navController) },
+                )
+            }
             }
 
-                        composable(route = PengelolaHalaman.Summary.name) {
-                            HalamanDua(
-                                orderUIState = uiState,
-                                onCancelButtonClicked = {
-                                    cancelOrderAndNavigateToRasa(navController) },
-                            )
-                        }
                     }
                 }
-}
-private fun cancelOrderAndNavigateToHome(
+
+private fun cancelOrderAndNavigateToForm(
     viewModel: OrderViewModel,
     navController: NavHostController
 ){
     viewModel.resetOrder()
-    navController.popBackStack(PengelolaHalaman.Home.name, inclusive = false)
-}
-private fun cancelOrderAndNavigateToTopping(
-    viewModel: OrderViewModel,
-    navController: NavHostController
-){
-    viewModel.resetOrder()
-    navController.popBackStack(PengelolaHalaman.Topping.name, inclusive = false)
+    navController.popBackStack(PengelolaHalaman.Form.name, inclusive = false)
 }
 
 private fun cancelOrderAndNavigateToRasa(

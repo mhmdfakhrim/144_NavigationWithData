@@ -10,7 +10,4 @@ object SumberData {
         R.string.milk,
         R.string.lyche,
     )
-    val topping = listOf(
-        R.string.meses
-    )
 }

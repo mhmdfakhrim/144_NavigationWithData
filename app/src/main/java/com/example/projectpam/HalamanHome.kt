@@ -80,7 +80,7 @@ fun HalamanHome(
                 .fillMaxWidth()
                 .padding(dimensionResource(R.dimen.padding_medium))
                 .weight(1f, false),
-            Arrangement.spacedBy(dimensionResource(R.dimen.padding_medium)),
+            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_medium)),
                 verticalAlignment = Alignment.Bottom
         ){
             Button(
